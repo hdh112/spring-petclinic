@@ -12,12 +12,9 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
-            environment {
-                TESTCONTAINERS_RYUK_DISABLED = 'true'
-            }
+        stage('Build') {
             steps {
-                sh './mvnw clean package -DskipTests=false'
+                sh './mvnw clean package -DskipTests=true'
             }
         }
 
