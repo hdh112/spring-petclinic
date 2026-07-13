@@ -38,10 +38,20 @@ pipeline {
         }
 
         stage('Deploy to Production VM via Ansible') {
+            stage('Deploy to Production VM via Ansible') {
             steps {
-                // Invokes the ansible playbook setup in Phase 3
-                ansiblePlaybook inventory: 'ansible/hosts.ini', playbook: 'ansible/deploy.yml'
+                // Using an ephemeral Docker container to run your playbook 
+                // cleanly without needing Ansible installed inside Jenkins
+                sh """
+                    docker run --rm \
+                      -v \$(pwd)/ansible:/ansible \
+                      -v /var/jenkins_home/.ssh:/root/.ssh:ro \
+                      --network petclinic-net \
+                      willhallonline/ansible:latest \
+                      ansible-playbook -i /ansible/hosts.ini /ansible/deploy.yml
+                """
             }
+        }
         }
     }
 
