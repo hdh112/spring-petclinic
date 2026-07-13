@@ -39,7 +39,7 @@ pipeline {
 
         stage('Deploy to Production VM via Ansible') {
             steps {
-                sh 'ansible-playbook -i ansible/hosts.ini ansible/deploy.yml'
+                ansiblePlaybook inventory: 'ansible/hosts.ini', playbook: 'ansible/deploy.yml'
             }
         }
     }
