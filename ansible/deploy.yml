@@ -1,0 +1,50 @@
+---
+- name: Deploy Spring Petclinic Application
+  hosts: production
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install OpenJDK 17
+      apt:
+        name: openjdk-17-jre
+        state: present
+
+    - name: Stop existing Petclinic service if running
+      systemd:
+        name: petclinic
+        state: stopped
+      failed_when: false
+
+    - name: Copy JAR file to production server
+      copy:
+        src: ../target/spring-petclinic-3.2.0.jar
+        dest: /opt/spring-petclinic.jar
+        mode: '0755'
+
+    - name: Create Systemd service file for Petclinic
+      copy:
+        dest: /etc/systemd/system/petclinic.service
+        content: |
+          [Unit]
+          Description=Spring Petclinic Application
+          After=network.target
+
+          [Service]
+          User=root
+          ExecStart=/usr/bin/java -jar /opt/spring-petclinic.jar --server.port=8080
+          SuccessExitStatus=143
+          Restart=always
+          RestartSec=10
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd and start application
+      systemd:
+        daemon_reload: yes
+        name: petclinic
+        state: restarted
+        enabled: yes
