@@ -43,11 +43,11 @@ pipeline {
                 // cleanly without needing Ansible installed inside Jenkins
                 sh """
                     docker run --rm \
-                      -v \$(pwd)/ansible:/ansible \
+                      -v /var/jenkins_home/workspace/spring-petclinic-pipeline/ansible:/ansible \
                       -v /var/jenkins_home/.ssh:/root/.ssh:ro \
                       --network petclinic-devsecops_petclinic-net \
                       willhallonline/ansible:latest \
-                      ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
+                      ansible-playbook -i /ansible/hosts.ini /ansible/deploy.yml
                 """
             }
         }
