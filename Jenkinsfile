@@ -38,7 +38,6 @@ pipeline {
         }
 
         stage('Deploy to Production VM via Ansible') {
-            stage('Deploy to Production VM via Ansible') {
             steps {
                 // Using an ephemeral Docker container to run your playbook 
                 // cleanly without needing Ansible installed inside Jenkins
