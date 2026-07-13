@@ -45,8 +45,10 @@ pipeline {
                     docker run --rm \
                     -v /var/jenkins_home/workspace/spring-petclinic-pipeline:/workspace \
                     -w /workspace \
+                    -v /var/jenkins_home/.ssh:/root/.ssh:ro \
+                    --network petclinic-devsecops_petclinic-net \
                     willhallonline/ansible:latest \
-                    ls -R
+                    ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
                 """
             }
         }
