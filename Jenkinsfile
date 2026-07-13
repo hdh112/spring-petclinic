@@ -45,7 +45,7 @@ pipeline {
                     docker run --rm \
                       -v \$(pwd)/ansible:/ansible \
                       -v /var/jenkins_home/.ssh:/root/.ssh:ro \
-                      --network petclinic-net \
+                      --network petclinic-devsecops_petclinic-net \
                       willhallonline/ansible:latest \
                       ansible-playbook -i /ansible/hosts.ini /ansible/deploy.yml
                 """
