@@ -42,6 +42,8 @@ pipeline {
                 ANSIBLE_HOST_KEY_CHECKING = 'False'
             }
             steps {
+                // Debug line to see what file actually got built:
+                sh 'ls -l target/'
                 sh 'ansible-playbook -i ansible/hosts.ini ansible/deploy.yml'
             }
         }
