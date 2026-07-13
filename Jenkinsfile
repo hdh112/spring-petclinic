@@ -48,7 +48,7 @@ pipeline {
     post {
         always {
             // Native Jenkins step to publish the HTML report. 
-            htmlPublisher(allowMissing: true,
+            publishHTML(allowMissing: true,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportDir: 'zap_wrk',
