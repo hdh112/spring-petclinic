@@ -51,7 +51,7 @@ pipeline {
             publishHTML(allowMissing: true,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
-                reportDir: 'zap_wrk',
+                reportDir: '.',
                 reportFiles: 'zap_report.html',
                 reportName: 'ZAP Security Report',
                 reportTitles: 'ZAP Baseline Scan Output'
