@@ -13,6 +13,9 @@ pipeline {
         }
 
         stage('Build & Test') {
+            environment {
+                TESTCONTAINERS_RYUK_DISABLED = 'true'
+            }
             steps {
                 sh './mvnw clean package -DskipTests=false'
             }
