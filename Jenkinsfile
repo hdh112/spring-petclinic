@@ -39,7 +39,16 @@ pipeline {
 
         stage('Deploy to Production VM via Ansible') {
             steps {
-                sh 'ansible-playbook -i ansible/hosts.ini ansible/deploy.yml'
+                sh '''
+                docker run --rm \
+                    -v /var/jenkins_home/workspace/spring-petclinic-pipeline:/workspace \
+                    -w /workspace \
+                    -v /var/jenkins_home/.ssh:/root/.ssh:ro \
+                    --network petclinic-devsecops_petclinic-net \
+                    -e ANSIBLE_HOST_KEY_CHECKING=False \
+                    willhallonline/ansible:latest \
+                    ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
+                '''
             }
         }
     }
