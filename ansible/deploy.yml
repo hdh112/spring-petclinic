@@ -20,7 +20,7 @@
 
     - name: Copy JAR file to production server
       copy:
-        src: ../target/spring-petclinic-3.2.0.jar
+        src: ../target/spring-petclinic-4.0.0-SNAPSHOT.jar
         dest: /opt/spring-petclinic.jar
         mode: '0755'
 
