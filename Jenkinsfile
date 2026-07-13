@@ -47,9 +47,15 @@ pipeline {
 
     post {
         always {
-            // Archive ZAP report from container to Jenkins workspace
-            sh "docker cp zap:/zap/wrk/zap_report.html ."
-            archiveArtifacts artifacts: 'zap_report.html', fingerprint: true
+            // Native Jenkins step to publish the HTML report. 
+            htmlPublisher(allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'zap_wrk',
+                reportFiles: 'zap_report.html',
+                reportName: 'ZAP Security Report',
+                reportTitles: 'ZAP Baseline Scan Output'
+            )
         }
     }
 }
